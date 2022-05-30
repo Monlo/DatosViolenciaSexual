@@ -4,7 +4,7 @@ rm(list=ls())
 # proyecto:         Violencia sexual
 # fecha:            mayo 2022
 # autoras:          Monserrat López y Helga Jáuregui
-# num:              04 código p/ calcular difra negra en delitos sexuales
+# num:              04 código p/ calcular cifra negra en delitos sexuales
 #------------------------------------------------------------------------------#
 
 # 0. Configuración  -----------------------------------------------------
