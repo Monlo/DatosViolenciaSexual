@@ -48,7 +48,7 @@ tipo_violencia <- violencia_sexual %>%
 
 tipo_violencia %>% glimpse()
 
-# 2.2 Tota de delitos por año 
+# 2.2 Total de delitos por año 
 
 total_anual <- tipo_violencia %>% 
   group_by(ano) %>% 
