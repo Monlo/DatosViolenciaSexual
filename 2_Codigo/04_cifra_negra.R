@@ -19,7 +19,7 @@ options(survey.lonely.psu="adjust")
 # 1. Cargar datos  -----------------------------------------------------
 
 # Cargar Tabla TMod_Vic
-# Importa la base, hace ajustes a tipos de variables para que esten correctos y filtra para cdmx-
+# Importarr la tabla, limpiar los nombres y convertir a numéricos
 victim <- read_csv("1_Datos/conjunto_de_datos_ENVIPE_2021_csv/conjunto_de_datos_TMod_Vic_ENVIPE_2021/conjunto_de_datos/conjunto_de_datos_TMod_Vic_ENVIPE_2021.csv") %>% 
   clean_names() %>%
   mutate(upm_dis = as.numeric(upm_dis),
@@ -34,11 +34,12 @@ victim <- read_csv("1_Datos/conjunto_de_datos_ENVIPE_2021_csv/conjunto_de_datos_
          delitos_ocurridos= 1)
 victim %>% glimpse()
 
-# Cargo diccionarios
+# Cargar diccionarios
 BPCOD <- read_csv("1_Datos/conjunto_de_datos_ENVIPE_2021_csv/conjunto_de_datos_TMod_Vic_ENVIPE_2021/catalogos/BPCOD.csv", locale = locale(encoding = "latin1")) %>% 
   clean_names() %>% 
   mutate(bpcod = as.numeric(bpcod))
 BPCOD %>% glimpse()
+
 # 2. Estimaciones  -----------------------------------------------------
 # Construcción de la variable de Delitos Ocurridos
 victim$DO <- ifelse(!victim$bpcod%in%"3",1,0)
@@ -47,13 +48,13 @@ victim$DO <- ifelse(!victim$bpcod%in%"3",1,0)
 # Delitos No Denunciados
 victim$DND <- ifelse(!victim$bpcod%in%"3" & (victim$bp1_20 %in% "2" & victim$bp1_21 %in% c("2",NA)),1,0) 
 
-# Delitos Denunciados Sin Averiguaci?n Previa
+# Delitos Denunciados sin CI o AP
 victim$DSAP <- ifelse(!victim$bpcod%in%"3" & (victim$bp1_20 %in% "1" | victim$bp1_21 %in% "1") & !victim$bp1_24 %in% "1",1,0)
 
-# Delitos Denunciados en los cuales no fue especificado si se denunci? o si se inici? averiguaci?n previa
+# Delitos Denunciados en los cuales no fue especificado si se denunció o si se inició CI o AP
 victim$DNE <- ifelse(!victim$bpcod%in%"3" & (victim$bp1_21 %in% "9" | victim$bp1_24 %in% "9"),1,0) 
 
-# Construcci?n de la variable de Cifra Negra
+# Construcción de la variable de Cifra Negra
 victim$CN <- ifelse((victim$DND%in%"1" | victim$DSAP%in%"1" | victim$DNE%in%"1"),1,0)
 
 victim%>% 
@@ -103,9 +104,6 @@ cn_delitos <- cn %>%
     summarise(across(.cols = no_denuncia:total_delitos_se, .fns = sum)) %>% 
     ungroup() %>% 
     mutate(cn_per = (no_denuncia/total_delitos)*100)  
-     
-
-         
 
 # Ordenar datos
 graph1 <-  cn_delitos %>%  
