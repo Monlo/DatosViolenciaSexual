@@ -2,7 +2,7 @@
 # Impunidad Cero
 # proyecto:         Violencia sexual
 # fecha:            mayo 2022
-# autoras:           Monserrat López y Helga Jáuregui
+# autoras:          Monserrat López y Helga Jáuregui
 # num:              02 código para analizar datos del subsistema de lesiones
 #------------------------------------------------------------------------------#
 
